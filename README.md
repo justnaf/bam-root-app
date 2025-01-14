@@ -13,10 +13,10 @@ This repository for Baitul Arqam Dasar for Root Access only allow SuperAdmin to 
 
 ## Features
 
--   CRUD Events
--   Approval Events Submission
--   CRUD Users
--   Approval Users Submission
+-   CRUD Events (On-Process)
+-   Approval Events Submission (Ready)
+-   CRUD Users (Ready)
+-   Approval Users Submission (Ready)
 
 ## Support
 
