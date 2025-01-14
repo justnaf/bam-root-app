@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function dataDiri()
+    {
+        return $this->hasOne(DataDiri::class);
+    }
 }
