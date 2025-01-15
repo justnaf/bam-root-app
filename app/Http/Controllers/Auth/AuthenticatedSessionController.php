@@ -26,9 +26,9 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        if (Auth::user()->role !== 'SuperAdmin') {
+        if (Auth::user()->roles->pluck('name')[0] !== 'SuperAdmin') {
             Auth::logout();
-            return redirect()->route('login')->withErrors(['username' => 'You do not have permission to access this application.']);
+            return redirect()->route('login')->withErrors(['' => 'You do not have permission to access this application.']);
         }
 
         $request->session()->regenerate();

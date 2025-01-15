@@ -12,9 +12,19 @@
                     @include('includes.toast')
                     <div class="relative overflow-x-auto">
                         <div x-data="tableComponent()">
-                            <div class=" flex justify-between mx-auto">
-                                <div class="mb-4 ">
-                                    <input type="text" x-model="search" placeholder="NPM/Username" class="px-4 py-2 border rounded-md w-full">
+                            <div class="flex justify-between mx-auto">
+                                <div class="mb-4">
+                                    <label for="search" class="mr-2">Search :</label>
+                                    <input id="search" type="text" x-model="search" placeholder="NPM/Username" class="px-4 py-2 border rounded-md">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="roleFilter" class="mr-2">Filter by Role:</label>
+                                    <select id="roleFilter" x-model="selectedRole" class="border rounded py-2 px-6">
+                                        <option value="">All Roles</option>
+                                        <template x-for="role in allRoles" :key="role">
+                                            <option :value="role" x-text="role"></option>
+                                        </template>
+                                    </select>
                                 </div>
                                 <div class="mb-4">
                                     <label for="entriesPerPage" class="mr-2">Entries per page:</label>
@@ -56,7 +66,7 @@
                                             <td class="px-6 py-4" x-text="user.username"></td>
                                             <td class="px-6 py-4">
                                                 <template x-if="user.roles && user.roles.length > 0">
-                                                    <span x-text="user.roles.join(', ')"></span> <!-- Join the roles into a comma-separated string -->
+                                                    <span x-text="user.roles.join(', ')"></span>
                                                 </template>
                                                 <template x-if="!user.roles || user.roles.length === 0">
                                                     <span>No Roles</span>
@@ -95,12 +105,12 @@
                                 <button @click="nextPage" :disabled="page === totalPages" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Next</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     @push('addedScript')
     <script>
         function tableComponent() {
@@ -109,11 +119,17 @@
                     ...user
                     , roles: user.roles.map(role => role.name), // Ensure roles are an array of role names
                 }))
+                , allRoles: Array.from(new Set(@json($users).flatMap(user => user.roles.map(role => role.name))))
                 , search: ''
+                , selectedRole: ''
                 , page: 1
                 , perPage: 5
                 , get filteredUsers() {
-                    return this.users.filter(user => user.username.toLowerCase().includes(this.search.toLowerCase()));
+                    return this.users.filter(user => {
+                        const matchesUsername = user.username.toLowerCase().includes(this.search.toLowerCase());
+                        const matchesRole = this.selectedRole ? user.roles.includes(this.selectedRole) : true;
+                        return matchesUsername && matchesRole;
+                    });
                 }
                 , get paginatedUsers() {
                     const start = (this.page - 1) * this.perPage;
@@ -146,14 +162,13 @@
                         , cancelButtonColor: '#3085d6'
                         , confirmButtonText: 'Yes, delete it!'
                         , cancelButtonText: 'Cancel'
-                    , }).then((result) => {
+                    }).then((result) => {
                         if (result.isConfirmed) {
-                            // Explicitly reference the form element and submit it
                             this.$refs.form.submit();
                         }
                     });
                 }
-            , };
+            };
         }
 
     </script>

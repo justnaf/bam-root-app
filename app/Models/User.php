@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'code',
         'username',
         'email',
         'password',
@@ -50,5 +51,15 @@ class User extends Authenticatable
     public function dataDiri()
     {
         return $this->hasOne(DataDiri::class);
+    }
+
+    public function modelRequestRole()
+    {
+        return $this->hasMany(ModelRequestRole::class);
+    }
+
+    public function event()
+    {
+        return $this->hasMany(Event::class);
     }
 }

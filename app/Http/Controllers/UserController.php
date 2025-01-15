@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelRequestRole;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -84,5 +86,51 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.index')->with('success', 'Event Deleted successfully.');
+    }
+
+    public function pendingSubmission()
+    {
+        $pendings = ModelRequestRole::with(['user.dataDiri', 'user.roles'])->where('status', 'pending')->get();
+
+        return view('accounts.submission.request', compact('pendings'));
+    }
+
+    public function showSubmission(ModelRequestRole $pendings)
+    {
+        return view('accounts.submission.show', compact('pendings'));
+    }
+
+    public function approveSubmission(User $userId, ModelRequestRole $id)
+    {
+        $idRole = Role::where('name', $id->requested_role)->get('id');
+        $changeRole = $userId->roles()->sync($idRole);
+        if ($changeRole) {
+            $id->status = 'approved';
+            if ($id->save()) {
+                return redirect()->route('submission.role.pending')->with('success', 'Aprrove Pengajuan Role Sukses');
+            } else {
+                return redirect()->route('submission.role.pending')->with('error', 'Gagal Mengganti Status');
+            }
+        } else {
+
+            return redirect()->route('submission.role.pending')->with('warning', 'Role Tidak Ditemukan');
+        }
+    }
+
+    public function declineSubmission(User $userId, ModelRequestRole $id)
+    {
+        $id->status = 'declined';
+        if ($id->save()) {
+            return redirect()->route('submission.role.pending')->with('error', 'Pengajuan Role Di Tolak');
+        } else {
+            return redirect()->route('submission.role.pending')->with('error', 'Gagal Mengganti Status');
+        }
+    }
+
+    public function indexSubmission()
+    {
+        $alls = ModelRequestRole::with(['user.dataDiri', 'user.roles'])->get();
+
+        return view('accounts.submission.index', compact('alls'));
     }
 }
