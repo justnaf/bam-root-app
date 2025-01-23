@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\ModelRequestEvent;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -12,7 +13,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::with(['modelRequestEvent' => function ($query) {
+            $query->where('status', 'pending');
+        }])->get();
+
+        return view('events.index', compact('events'));
     }
 
     /**
@@ -36,7 +41,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('events.show', compact('event'));
     }
 
     /**
@@ -50,9 +55,30 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, ModelRequestEvent $event)
     {
-        //
+        $submission = $event;
+        $event = Event::find($submission->event_id);
+        if ($request->status == 'approved') {
+            $submission->status = 'approved';
+            if ($submission->save()) {
+                $event->status = 'preparation';
+                $event->save();
+                return redirect()->route('events.index')->with('success', 'Pengajuan Disetujui.');
+            } else {
+                return redirect()->route('events.index')->with('warning', 'Ada Sesuatu Yang Salah.');
+            }
+        } elseif ($request->status == 'declined') {
+            $submission->status = 'declined';
+            if ($submission->save()) {
+                $event->status = 'draft';
+                $event->save();
+                return redirect()->route('events.index')->with('success', 'Pengajuan DiTolak.');
+            } else {
+                return redirect()->route('events.index')->with('warning', 'Ada Sesuatu Yang Salah.');
+            }
+        }
+        return redirect()->route('events.index')->with('error', 'Ada Sesuatu Yang Salah.');
     }
 
     /**
@@ -60,6 +86,19 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return redirect()->route('events.index')->with('success', 'Event Deleted successfully.');
+    }
+
+    public function submissionEvent()
+    {
+        $events = Event::whereHas('modelRequestEvent', function ($query) {
+            $query->where('status', 'pending');
+        })->with(['modelRequestEvent' => function ($query) {
+            $query->where('status', 'pending');
+        }])->where('status', 'submission')->get();
+
+        return view('events.submission.index', compact('events'));
     }
 }

@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('model_request_roles', function (Blueprint $table) {
+        Schema::create('model_request_events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
-            $table->string('requested_role');
-            $table->string('reason');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('event_id');
+            $table->foreign('event_id')->references('id')->on('events');
+            $table->string('event_name');
             $table->enum('status', ['pending', 'approved', 'declined']);
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('model_request_roles');
+        Schema::dropIfExists('model_request_events');
     }
 };

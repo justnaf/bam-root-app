@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +14,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'role:SuperAdmin'])->name('dashboard');
 
 Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
-    Route::resource('user', UserController::class); // User Management
+    Route::resource('users', UserController::class); // User Management
+    Route::resource('events', EventController::class);
 
     /** Submission Role Route */
     Route::get('/sumission-role/all', [UserController::class, 'indexSubmission'])->name('submission.role.index');
@@ -22,6 +24,10 @@ Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
     Route::post('/submission-role/{userId}/{id}', [UserController::class, 'approveSubmission'])->name('submission.role.approve');
     Route::post('/submission-role/{id}', [UserController::class, 'declineSubmission'])->name('submission.role.decline');
     /** End Submission Role Route */
+
+    /** Submission Events Route */
+    Route::get('/sumission-event/pending', [EventController::class, 'submissionEvent'])->name('submission.event.index');
+    /** End Submission Events Route */
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

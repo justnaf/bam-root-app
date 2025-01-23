@@ -18,7 +18,6 @@
                                     <input id="search" type="text" x-model="search" placeholder="NPM/Username" class="px-4 py-2 border rounded-md">
                                 </div>
                                 <div class="mb-4">
-                                    <label for="roleFilter" class="mr-2">Filter by Role:</label>
                                     <select id="roleFilter" x-model="selectedRole" class="border rounded py-2 px-6">
                                         <option value="">All Roles</option>
                                         <template x-for="role in allRoles" :key="role">
@@ -27,7 +26,6 @@
                                     </select>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="entriesPerPage" class="mr-2">Entries per page:</label>
                                     <select id="entriesPerPage" x-model="perPage" class="border rounded py-2 px-6">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
@@ -73,13 +71,13 @@
                                                 </template>
                                             </td>
                                             <td class="px-6 py-4 flex space-x-2 items-center">
-                                                <a :href="'/user/'+ user.id" class="hover:text-green-500">
+                                                <a :href="'/users/'+ user.id" class="hover:text-green-500">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a :href="'/user/'+ user.id+'/edit/'" class="hover:text-orange-500">
+                                                <a :href="'/users/'+ user.id+'/edit/'" class="hover:text-orange-500">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a>
-                                                <form method="POST" :action="'/user/destroy/' + user.id" x-data="deleteForm" x-ref="form">
+                                                <form method="POST" :action="'/users/destroy/' + user.id" x-data="deleteForm" x-ref="form">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="hover:text-red-500" @click="confirmDelete">

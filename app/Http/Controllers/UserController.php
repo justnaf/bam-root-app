@@ -71,11 +71,15 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        $user->save();
-
-        $user->roles()->sync($request->role);
-
-        return redirect()->route('user.index')->with('success', 'User updated successfully.');
+        if ($user->save()) {
+            if ($user->roles()->sync($request->role)) {
+                return redirect()->route('users.index')->with('success', 'User updated successfully and Role Changed.');
+            } else {
+                return redirect()->route('users.index')->with('warning', 'User updated successfully, Role Not Changed.');
+            }
+        } else {
+            return redirect()->route('users.index')->with('error', 'User updated failed.');
+        }
     }
 
     /**

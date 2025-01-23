@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('data_diris', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->string('name');
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->date('birth_date');

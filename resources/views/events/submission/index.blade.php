@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Event Management') }}
+            <a href="{{route('events.index')}}">Events Management</a> > <span>Pengajuan Kegiatan</span>
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('includes.toast')
-            <a href="{{route('submission.event.index')}}" class="text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Lihat Submission Pending</a>
+            <a href="{{route('events.index')}}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Kembali</a>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="p-6 text-gray-900">
-                    <h1 class="text-center font-extrabold text-2xl mb-3">Data Kegiatan</h1>
+                    <h1 class="text-center font-extrabold text-2xl mb-3">Data Pengajuan Kegiatan Pending</h1>
                     <div x-data="tableComponent()">
                         <div class="flex justify-between mb-4">
                             <div>
@@ -67,6 +67,26 @@
                                             <a :href="'/events/' + events.id" class="hover:text-green-600 hover:underline">
                                                 <i class="fas fa-eye"></i>
                                             </a>
+                                            <template x-if="events.model_request_event[0].status == 'pending'">
+                                                <div class="flex space-x-2 ">
+                                                    <form method="POST" :action="'/events/'+events.model_request_event[0].id" x-data="approveForm" x-ref="approveform">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="text" hidden name="status" value="approved">
+                                                        <button type="button" class="text-green-600 hover:underline" @click="confirmApprove">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form method="POST" :action="'/events/'+events.model_request_event[0].id" x-data="declineForm" x-ref="declineform">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="text" hidden name="status" value="declined">
+                                                        <button type="button" class="text-red-600 hover:underline" @click="confirmDecline">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </template>
                                         </td>
                                     </tr>
                                 </template>
@@ -74,7 +94,7 @@
                                 <!-- No Data -->
                                 <template x-if="filteredEvents.length === 0">
                                     <tr>
-                                        <td colspan="7" class="text-center px-6 py-4">Tidak ada data yang tersedia</td>
+                                        <td colspan="8" class="text-center px-6 py-4">Tidak ada data yang tersedia</td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -130,6 +150,48 @@
                 }
                 , goToPage(page) {
                     if (page >= 1 && page <= this.totalPages) this.page = page;
+                }
+            };
+        }
+
+        function approveForm() {
+            return {
+                confirmApprove() {
+                    Swal.fire({
+                        title: 'Are you sure?'
+                        , text: "Yakin Ingin Menyetujui Kegiatan!"
+                        , icon: 'warning'
+                        , showCancelButton: true
+                        , confirmButtonColor: '#d33'
+                        , cancelButtonColor: '#3085d6'
+                        , confirmButtonText: 'Yes'
+                        , cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.$refs.approveform.submit();
+                        }
+                    });
+                }
+            };
+        }
+
+        function declineForm() {
+            return {
+                confirmDecline() {
+                    Swal.fire({
+                        title: 'Are you sure?'
+                        , text: "Yakin Ingin Menolak Kegiatan!"
+                        , icon: 'warning'
+                        , showCancelButton: true
+                        , confirmButtonColor: '#d33'
+                        , cancelButtonColor: '#3085d6'
+                        , confirmButtonText: 'Yes'
+                        , cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.$refs.declineform.submit();
+                        }
+                    });
                 }
             };
         }

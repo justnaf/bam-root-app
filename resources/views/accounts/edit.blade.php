@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{route('user.index')}}">User Management</a> > <span>Edit</span>
+            <a href="{{route('users.index')}}">User Management</a> > <span>Edit</span>
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{route('user.index')}}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Kembali</a>
+            <a href="{{route('users.index')}}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Kembali</a>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="p-6 text-gray-900">
                     <div class="relative overflow-x-auto content-center">
@@ -65,7 +65,7 @@
                         @endif
                         <hr class="border-b-1 border-gray-400 my-4 mx-auto max-w-lg">
                         <h1 class="text-center font-extrabold text-xl mb-3">Data Login</h1>
-                        <form method="POST" action="{{route('user.update',$user->id)}}" class="max-w-lg mx-auto mb-4" x-data="updateForm" x-ref="updateform">
+                        <form method="POST" action="{{route('users.update',$user->id)}}" class="max-w-lg mx-auto mb-4" x-data="updateForm" x-ref="updateform">
                             @csrf
                             @method('PUT')
                             <div class="w-full px-3 mb-6 md:mb-0">
