@@ -33,62 +33,6 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $peserta1 = User::create([
-            'code' => uniqid(),
-            'username' => '21050400014',
-            'password' => '123',
-            'email' => 'new@unimma.ac.id',
-            'email_verified_at' => now()
-        ]);
-
-        DataDiri::create([
-            'user_id' => $peserta1->id,
-            'name' => 'Afnan Ahsana Syadida',
-            'gender' => 'Laki-laki',
-            'address' => 'Borobudur, Kec. Borobudur, Kab. Magelang',
-            'phone_number' => '0812313131231231',
-            'birth_date' => '2003-02-07',
-            'birth_place' => 'Magelang',
-            'profile_picture' => null,
-        ]);
-
-        $admin1 = User::create([
-            'code' => uniqid(),
-            'username' => '21050400013',
-            'password' => '123',
-            'email' => 'new2@unimma.ac.id',
-            'email_verified_at' => now()
-        ]);
-
-        DataDiri::create([
-            'user_id' => $admin1->id,
-            'name' => 'Bachtiar Fawwaz',
-            'gender' => 'Laki-laki',
-            'address' => 'Borobudur, Kec. Borobudur, Kab. Magelang',
-            'phone_number' => '0812313131231231',
-            'birth_date' => '2003-06-07',
-            'birth_place' => 'Magelang',
-            'profile_picture' => null,
-        ]);
-
-        $instruktur1 = User::create([
-            'code' => uniqid(),
-            'username' => '21050400012',
-            'password' => '123',
-            'email' => 'new3@unimma.ac.id',
-            'email_verified_at' => now()
-        ]);
-
-        DataDiri::create([
-            'user_id' => $instruktur1->id,
-            'name' => 'Ulil Albab',
-            'gender' => 'Laki-laki',
-            'address' => 'Kec.Muntilan , Kab. Magelang',
-            'phone_number' => '0812313131231231',
-            'birth_date' => '2000-06-07',
-            'birth_place' => 'Magelang',
-            'profile_picture' => null,
-        ]);
 
         $roleDewa = Role::create(['name' => 'SuperAdmin']);
         $roleAdmin = Role::create(['name' => 'Admin']);
@@ -97,8 +41,5 @@ class DatabaseSeeder extends Seeder
 
         $dewa1->assignRole($roleDewa);
         $dewa2->assignRole($roleDewa);
-        $peserta1->assignRole($rolePeserta);
-        $admin1->assignRole($roleAdmin);
-        $instruktur1->assignRole($roleInstruktur);
     }
 }
