@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('user.index')->with('success', 'Event Deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'Event Deleted successfully.');
     }
 
     public function pendingSubmission()

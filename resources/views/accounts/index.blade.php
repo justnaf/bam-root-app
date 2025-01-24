@@ -77,7 +77,7 @@
                                                 <a :href="'/users/'+ user.id+'/edit/'" class="hover:text-orange-500">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a>
-                                                <form method="POST" :action="'/users/destroy/' + user.id" x-data="deleteForm" x-ref="form">
+                                                <form method="POST" :action="'/users/' + user.id" x-data="deleteForm" x-ref="form">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="hover:text-red-500" @click="confirmDelete">
