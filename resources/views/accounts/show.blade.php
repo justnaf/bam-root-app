@@ -20,7 +20,7 @@
                                 @if($user->dataDiri->profile_picture == null)
                                 <p>No Picture</p>
                                 @else
-                                <img src="{{url('https://peserta.siaruna.com/'.$user->dataDiri->profile_picture)}}" alt="{{$user->dataDiri->name}}" class="w-full h-full object-cover">
+                                <img src="{{url('https://peserta.siaruna.com/storage/'.$user->dataDiri->profile_picture)}}" alt="{{$user->dataDiri->name}}" class="w-full h-full object-cover">
                                 @endif
                                 @endif
                             </div>
