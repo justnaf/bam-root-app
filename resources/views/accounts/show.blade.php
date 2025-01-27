@@ -29,6 +29,7 @@
                                 <p>Mau Cari Apa Bos</p>
                                 @else
                                 <table class="w-full text-left rounded-md">
+                                    @if($user->dataDiri)
                                     <tr class="border-b-4 border-b-white">
                                         <td class="font-bold bg-gray-500 p-2 rounded-l-md text-center text-white">Nama</td>
                                         <td class="w-5 font-bold bg-gray-500 text-center text-white">:</td>
@@ -59,6 +60,12 @@
                                         <td class="w-5 font-bold bg-gray-500 text-center text-white">:</td>
                                         <td class="bg-gray-100 px-2 rounded-r-md">{{$user->dataDiri->address}}</td>
                                     </tr>
+                                    @else
+                                    <tr>
+                                        <td colspan="3" class="text-center">Data Diri Masih Kosong</td>
+                                    </tr>
+
+                                    @endif
                                 </table>
                                 @endif
                             </div>

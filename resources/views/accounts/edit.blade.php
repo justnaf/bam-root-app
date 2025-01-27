@@ -16,14 +16,16 @@
                         <p class="text-center">Dewa Nih Bos</p>
                         @else
                         <div class="bg-gray-300 p-4 w-64 h-80 flex items-center justify-center mx-auto mb-5">
-                            @if($user->dataDiri->profile_picture == null)
-                            <p>No Picture</p>
-                            @else
+                            @if($user->dataDiri && $user->dataDiri->profile_picture)
                             <img src="{{url('https://peserta.siaruna.com/storage/'.$user->dataDiri->profile_picture)}}" alt="{{$user->dataDiri->name}}" class="w-full h-full object-cover">
+                            @else
+                            <p>No Picture</p>
                             @endif
                         </div>
                         <div class="max-w-lg mx-auto">
                             <div class="grid grid-cols-2 grid-flow-row gap-4 max-w-lg mx-auto mb-3">
+                                @if($user->dataDiri)
+
                                 <div class="w-full px-3 mb-6 md:mb-0">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                         Nama Lengkap
@@ -61,6 +63,11 @@
                                 </label>
                                 <textarea class="resize-none h-32 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 focus:border-gray-200 " name="address" id="address" type="text" disabled>{{$user->dataDiri->address}}</textarea>
                             </div>
+                            @else
+                            <div class="text-center font-extrabold text-lg">
+                                <p>Data Diri Masih Kosong</p>
+                            </div>
+                            @endif
                         </div>
                         @endif
                         <hr class="border-b-1 border-gray-400 my-4 mx-auto max-w-lg">
