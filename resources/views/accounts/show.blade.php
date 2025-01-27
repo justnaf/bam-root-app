@@ -17,10 +17,10 @@
                                 @if(str_replace(['[', ']', '"'], '', $user->getRoleNames()) == "SuperAdmin")
                                 <p>Dewa Nih Bos</p>
                                 @else
-                                @if($user->dataDiri && $user->dataDiri->profile_picture == null)
-                                <p>No Picture</p>
-                                @else
+                                @if($user->dataDiri && $user->dataDiri->profile_picture)
                                 <img src="{{url('https://peserta.siaruna.com/storage/'.$user->dataDiri->profile_picture)}}" alt="{{$user->dataDiri->name}}" class="w-full h-full object-cover">
+                                @else
+                                <p>No Picture</p>
                                 @endif
                                 @endif
                             </div>
