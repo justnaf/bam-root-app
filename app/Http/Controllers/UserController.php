@@ -17,9 +17,16 @@ class UserController extends Controller
      */
     public function index()
     {
+        $roleCounts = [
+            'dewa' => User::role('SuperAdmin')->count(),
+            'admin' => User::role('Admin')->count(),
+            'instruktur' => User::role('Instruktur')->count(),
+            'peserta' => User::role('Peserta')->count(),
+        ];
+
         $users = User::with('roles', 'dataDiri')->get();
 
-        return view('accounts.index', compact('users'));
+        return view('accounts.index', compact('users', 'roleCounts'));
     }
 
     /**
