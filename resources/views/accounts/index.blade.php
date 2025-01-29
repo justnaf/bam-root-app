@@ -27,10 +27,9 @@
                                 </div>
                                 <div class="mb-4">
                                     <select id="entriesPerPage" x-model="perPage" class="border rounded py-2 px-6">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
                                         <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
                                     </select>
                                 </div>
                             </div>
@@ -52,19 +51,17 @@
                                             <th colspan="4" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">No Data Display</th>
                                         </tr>
                                     </template>
-                                    <template x-for="(user) in paginatedUsers" :key="user.id">
-                                        <tr>
-                                            <td class="px-2 py-3" x-text="index + 1"></td>
-                                        </tr>
+                                    <template x-for="(user, index) in paginatedUsers" :key="user.id">
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th class="px-2 py-3" x-text="index + 1"></th>
+                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <template x-if="user.data_diri">
                                                     <span x-text="user.data_diri.name"></span>
                                                 </template>
                                                 <template x-if="!user.data_diri">
                                                     <span>&nbsp;</span>
                                                 </template>
-                                            </th>
+                                            </td>
                                             <td class="px-6 py-4" x-text="user.username"></td>
                                             <td class="px-6 py-4">
                                                 <template x-if="user.roles && user.roles.length > 0">
@@ -132,7 +129,7 @@
                 , search: ''
                 , selectedRole: ''
                 , page: 1
-                , perPage: 5
+                , perPage: 20
                 , get filteredUsers() {
                     return this.users.filter(user => {
                         const matchesUsername = user.username.toLowerCase().includes(this.search.toLowerCase());
