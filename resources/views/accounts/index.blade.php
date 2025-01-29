@@ -13,7 +13,7 @@
                     <div class="p-2">
                         <h1 class="text-lg font-bold">{{$role}}</h1>
                         <p class="text-lg">
-                            {{$coutn}}
+                            {{$count}}
                         </p>
                     </div>
                 </div>
