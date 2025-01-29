@@ -52,7 +52,7 @@
                                             <th colspan="4" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">No Data Display</th>
                                         </tr>
                                     </template>
-                                    <template x-for="(user, index) in paginatedUsers" :key="user.id">
+                                    <template x-for="(user) in paginatedUsers" :key="user.id">
                                         <tr>
                                             <td class="px-2 py-3" x-text="index + 1"></td>
                                         </tr>
