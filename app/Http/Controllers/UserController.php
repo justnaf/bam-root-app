@@ -89,13 +89,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $dataDiri = DataDiri::where("user_id", $user->id)->first();
-        if (Storage::disk('public')->delete($dataDiri->profile_picture)) {
-            $user->delete();
-            return redirect()->route('users.index')->with('success', 'User Deleted successfully.');
-        }
+        $user->delete();
 
-        return redirect()->route('users.index')->with('error', 'User Failed Deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'User Deleted successfully.');
     }
 
     public function pendingSubmission()
