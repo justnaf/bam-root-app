@@ -94,11 +94,13 @@
                             <div class="mt-4 flex justify-between items-center">
                                 <button @click="prevPage" :disabled="page === 1" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Previous</button>
                                 <div class="flex space-x-2">
+                                    <p>...</p>
                                     <template x-for="pageNumber in pageRange" :key="pageNumber">
                                         <button @click="goToPage(pageNumber)" :class="{'bg-blue-500 text-white': page === pageNumber, 'bg-gray-200': page !== pageNumber}" class="px-4 py-2 rounded-md">
                                             <span x-text="pageNumber"></span>
                                         </button>
                                     </template>
+                                    <p>...</p>
                                 </div>
                                 <button @click="nextPage" :disabled="page === totalPages" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Next</button>
                             </div>
