@@ -59,7 +59,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+
+    public function modelActiveEvent()
+    {
+        return $this->hasMany(ModelActiveEvent::class);
+    }
+
+    public function modelHistoryEvent()
+    {
+        return $this->hasMany(ModelHistoryEvent::class);
+    }
+
+    public function presenceHistory()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
     // End Event Binding
+
 
     // Detail Of User
     public function dataDiri()
