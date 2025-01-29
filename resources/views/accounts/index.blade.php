@@ -94,7 +94,7 @@
                             <div class="mt-4 flex justify-between items-center">
                                 <button @click="prevPage" :disabled="page === 1" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Previous</button>
                                 <div class="flex space-x-2">
-                                    <template x-for="pageNumber in Array.from({ length: totalPages }, (_, i) => i + 1)" :key="pageNumber">
+                                    <template x-for="pageNumber in pageRange" :key="pageNumber">
                                         <button @click="goToPage(pageNumber)" :class="{'bg-blue-500 text-white': page === pageNumber, 'bg-gray-200': page !== pageNumber}" class="px-4 py-2 rounded-md">
                                             <span x-text="pageNumber"></span>
                                         </button>
@@ -102,6 +102,7 @@
                                 </div>
                                 <button @click="nextPage" :disabled="page === totalPages" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Next</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -135,6 +136,14 @@
                 }
                 , get totalPages() {
                     return Math.ceil(this.filteredUsers.length / this.perPage);
+                }
+                , get pageRange() {
+                    const totalPages = this.totalPages;
+                    const startPage = Math.max(1, this.page - 3); // Show 3 pages before
+                    const endPage = Math.min(totalPages, this.page + 3); // Show 3 pages after
+                    return Array.from({
+                        length: endPage - startPage + 1
+                    }, (_, i) => startPage + i);
                 }
                 , nextPage() {
                     if (this.page < this.totalPages) this.page++;
