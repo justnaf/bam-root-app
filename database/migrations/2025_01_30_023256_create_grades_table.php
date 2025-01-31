@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('model_active_events', function (Blueprint $table) {
+        Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->boolean('isJoin')->nullable();
-            $table->string('status')->nullable();
-            $table->integer('number')->nullable();
+            $table->foreignId('sesi_id');
+            $table->foreign('sesi_id')->references('id')->on('sesis')->onDelete('cascade');
+            $table->integer('poin_1')->default(3);
+            $table->integer('poin_2')->default(3);
+            $table->integer('poin_3')->default(3);
+            $table->integer('poin_4')->default(3);
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('model_active_events');
+        Schema::dropIfExists('grades');
     }
 };
