@@ -4,23 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestRoom extends Model
+class ModelHasRestroom extends Model
 {
     protected $fillable = [
         'event_id',
-        'code',
-        'name',
-        'capacity',
-        'gender'
+        'user_id',
+        'rest_room_id',
     ];
 
     public function event()
     {
         return $this->belongsTo(Event::class);
     }
-
-    public function modelHasRestroom()
+    public function restRoom()
     {
-        return $this->hasMany(ModelHasRestroom::class);
+        return $this->belongsTo(RestRoom::class);
     }
 }
