@@ -18,4 +18,18 @@ class Sesi extends Model
         'materi_path',
         'status',
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function presenceHistories()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
 }

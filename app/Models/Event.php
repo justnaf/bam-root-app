@@ -27,6 +27,30 @@ class Event extends Model
 
     public function modelRequestEvent()
     {
-        return $this->hasMany(ModelRequestEvent::class);
+        return $this->hasOne(ModelRequestEvent::class);
+    }
+
+    public function sesi()
+    {
+        return $this->hasMany(Sesi::class);
+    }
+    public function grade()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function modelActiveEvent()
+    {
+        return $this->hasMany(ModelActiveEvent::class);
+    }
+
+    public function presenceHistories()
+    {
+        return $this->hasMany(PresenceHistory::class);
+    }
+
+    public function restRoom()
+    {
+        return $this->hasMany(RestRoom::class);
     }
 }

@@ -74,6 +74,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(PresenceHistory::class);
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
     // End Event Binding
 
 
@@ -107,5 +112,14 @@ class User extends Authenticatable
         return $this->hasMany(ReadInterest::class);
     }
 
+    public function alergics()
+    {
+        return $this->hasMany(Alergic::class);
+    }
+
+    public function diseases()
+    {
+        return $this->hasMany(Disease::class);
+    }
     // end Detail Of User
 }
