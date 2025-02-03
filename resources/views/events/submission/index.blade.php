@@ -67,9 +67,9 @@
                                             <a :href="'/events/' + events.id" class="hover:text-green-600 hover:underline">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <template x-if="events.model_request_event[0].status == 'pending'">
+                                            <template x-if="events.model_request_event.status == 'pending'">
                                                 <div class="flex space-x-2 ">
-                                                    <form method="POST" :action="'/events/'+events.model_request_event[0].id" x-data="approveForm" x-ref="approveform">
+                                                    <form method="POST" :action="'/events/'+events.model_request_event.id" x-data="approveForm" x-ref="approveform">
                                                         @csrf
                                                         @method('PUT')
                                                         <input type="text" hidden name="status" value="approved">
@@ -77,7 +77,7 @@
                                                             <i class="fas fa-check"></i>
                                                         </button>
                                                     </form>
-                                                    <form method="POST" :action="'/events/'+events.model_request_event[0].id" x-data="declineForm" x-ref="declineform">
+                                                    <form method="POST" :action="'/events/'+events.model_request_event.id" x-data="declineForm" x-ref="declineform">
                                                         @csrf
                                                         @method('PUT')
                                                         <input type="text" hidden name="status" value="declined">
@@ -151,6 +151,8 @@
                 , goToPage(page) {
                     if (page >= 1 && page <= this.totalPages) this.page = page;
                 }
+
+
             };
         }
 
