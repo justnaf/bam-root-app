@@ -31,6 +31,16 @@
                         {{ __('Event Management') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('majelis.index')" :active="request()->routeIs('majelis.*')">
+                        {{ __('Kajian Management') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('presences.index')" :active="request()->routeIs('presences.*')">
+                        {{ __('Presensi Kajian') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

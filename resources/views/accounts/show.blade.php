@@ -72,11 +72,59 @@
                         </div>
                         <hr class="border-b-1 border-gray-400 my-4 mx-auto max-w-lg mt-5">
                         <h1 class="text-center font-extrabold text-xl mb-2">Riwayat Kegiatan</h1>
-                        <p class="text-center">Coming Soon</p>
-
+                        <table class="w-8/12 mx-auto text-sm text-left text-gray-500 border border-gray-200">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
+                                <tr>
+                                    <th class="px-6 py-3">Nama Kegiatan</th>
+                                    <th class="px-6 py-3">Status Kelulusan</th>
+                                    <th class="px-6 py-3">Keterangan</th>
+                                    <th class="px-6 py-3">Lihat RTL</th>
+                                </tr>
+                            </thead>
+                            <tbody x-data="dataTable()">
+                                <template x-for="item in filteredData()" :key="item.id">
+                                    <tr>
+                                        <td class="px-6 py-3">
+                                            <p x-text="item.event.name"></p>
+                                        </td>
+                                        <td class="px-6 py-3">
+                                            <p x-text="item.status"></p>
+                                        </td>
+                                        <td class="px-6 py-3">
+                                            <p x-text="item.desc"></p>
+                                        </td>
+                                        <td class="px-6 py-3">
+                                            <a href="{{route('presences.show',['userId'=>$user->id])}}">Show</a>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr x-show="filteredData().length === 0">
+                                    <td colspan="5" class="text-center px-6 py-4">Tidak ada data yang tersedia</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @php
+    $historyEvent = $user->modelHistoryEvent
+    @endphp
+    @push('addedScript')
+    <script>
+        function dataTable() {
+            return {
+                data: @json($historyEvent)
+                , capitalize(text) {
+                    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+                }
+                , filteredData() {
+                    return this.data
+                }
+            };
+        }
+
+    </script>
+    @endpush
 </x-app-layout>

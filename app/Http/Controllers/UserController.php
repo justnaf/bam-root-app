@@ -24,7 +24,7 @@ class UserController extends Controller
             'Peserta' => User::role('Peserta')->count(),
         ];
 
-        $users = User::with('roles', 'dataDiri')->get();
+        $users = User::with(['roles', 'dataDiri'])->get();
 
         return view('accounts.index', compact('users', 'roleCounts'));
     }
@@ -50,6 +50,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('modelHistoryEvent.event');
         return view('accounts.show', compact('user'));
     }
 

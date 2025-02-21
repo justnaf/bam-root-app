@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MajelisController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,14 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
     Route::resource('users', UserController::class); // User Management
     Route::resource('events', EventController::class);
+    Route::resource('majelis', MajelisController::class);
+
+    /** Majelis Route */
+    Route::patch('/majelis/{majelis}/change-status', [MajelisController::class, 'changeStatus'])->name('changestatus.majelis');
+    Route::get('/presences-majelis', [MajelisController::class, 'indexPresences'])->name('presences.index');
+    Route::post('/presences-majelis/get-data', [MajelisController::class, 'getPresencesData'])->name('presences.getdata');
+    Route::get('/presences-majelis/show/{userId}', [MajelisController::class, 'showPresencesUser'])->name('presences.show');
+    /** End Majelis Route */
 
     /** Submission Role Route */
     Route::get('/sumission-role/all', [UserController::class, 'indexSubmission'])->name('submission.role.index');

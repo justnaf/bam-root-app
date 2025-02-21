@@ -67,6 +67,13 @@
                                             <a :href="'/events/' + events.id" class="hover:text-green-600 hover:underline">
                                                 <i class="fas fa-eye"></i>
                                             </a>
+                                            <form method="POST" :action="'/events/' + events.id" x-data="deleteForm" x-ref="form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="hover:text-red-500" @click="confirmDelete">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </template>
@@ -130,6 +137,27 @@
                 }
                 , goToPage(page) {
                     if (page >= 1 && page <= this.totalPages) this.page = page;
+                }
+            };
+        }
+
+        function deleteForm() {
+            return {
+                confirmDelete() {
+                    Swal.fire({
+                        title: 'Are you sure?'
+                        , text: "Yakin Ingin Menghapus Data Ini!"
+                        , icon: 'warning'
+                        , showCancelButton: true
+                        , confirmButtonColor: '#d33'
+                        , cancelButtonColor: '#3085d6'
+                        , confirmButtonText: 'Yes, delete it!'
+                        , cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.$refs.form.submit();
+                        }
+                    });
                 }
             };
         }

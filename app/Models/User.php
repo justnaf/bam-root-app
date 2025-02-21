@@ -79,6 +79,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function presencedMajelis()
+    {
+        return $this->hasMany(PresenceMajelis::class, 'user_id_presenced');
+    }
+
+    public function presencerMajelis()
+    {
+        return $this->belongsTo(PresenceMajelis::class, 'user_id_presencer');
+    }
     // End Event Binding
 
 

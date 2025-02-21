@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('model_history_events', function (Blueprint $table) {
+        Schema::create('majelis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('event_id');
-            $table->foreign('event_id')->references('id')->on('events');
-            $table->string('joined_as')->default('Peserta');
-            $table->string('status')->nullable();
+            $table->string('code');
+            $table->string('name');
             $table->text('desc')->nullable();
+            $table->string('loc_name');
+            $table->string('loc_link')->nullable();
+            $table->enum('status', ['draft', 'up-coming', 'on-going', 'done'])->default('draft');
+            $table->string('category');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('model_history_events');
+        Schema::dropIfExists('majelis');
     }
 };
