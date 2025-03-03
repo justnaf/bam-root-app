@@ -13,7 +13,7 @@
                     <h1 class="text-center font-bold text-2xl mb-3">Detail Kajian</h1>
                     <div class="max-w-lg mx-auto">
                         <p class="flex justify-center mb-3">
-                            {!! QrCode::size(256)->generate($majeli->code) !!}
+                            {{$majeli->code}}
                         </p>
                         <div class="grid grid-cols-2 gap-4 mb-3">
                             <div class="w-full px-1">
