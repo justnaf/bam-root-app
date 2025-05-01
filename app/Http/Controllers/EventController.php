@@ -15,7 +15,7 @@ class EventController extends Controller
     {
         $events = Event::with(['modelRequestEvent' => function ($query) {
             $query->where('status', 'pending');
-        }])->get();
+        }])->orderBy('created_at', 'desc')->get();
 
         return view('events.index', compact('events'));
     }
