@@ -28,6 +28,7 @@
                                 <th class="px-6 py-3">Status</th>
                                 <th class="px-6 py-3">Keterangan</th>
                                 <th class="px-6 py-3">Resume</th>
+                                <th class="px-6 py-3">Aksi</th> {{-- Added for the delete button --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -49,17 +50,22 @@
                                         <td class="px-6 py-4">
                                             <p x-text="item.resume ?? 'Belum Mengisi resume'"></p>
                                         </td>
+                                        <td class="px-6 py-4">
+                                            <button @click="confirmDelete(item.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-xs">
+                                                Hapus
+                                            </button>
+                                        </td>
                                     </tr>
                                 </template>
                             </template>
                             <template x-if="!selectedEvent">
                                 <tr>
-                                    <td colspan="5" class="text-center p-3">Pilih Kegiatan</td>
+                                    <td colspan="6" class="text-center p-3">Pilih Kegiatan</td> {{-- Updated colspan --}}
                                 </tr>
                             </template>
                             <template x-if="selectedEvent && Array.isArray(presences) && presences.length === 0">
                                 <tr>
-                                    <td colspan="5" class="text-center p-3">Tidak ada data</td>
+                                    <td colspan="6" class="text-center p-3">Tidak ada data</td> {{-- Updated colspan --}}
                                 </tr>
                             </template>
                         </tbody>
@@ -100,6 +106,31 @@
                             .catch(error => console.error('Error fetching sessions:', error));
                     } else {
                         this.presences = [];
+                    }
+                }
+                , async confirmDelete(presenceId) {
+                    if (confirm('Apakah Anda yakin ingin menghapus data presensi ini?')) {
+                        try {
+                            const response = await fetch(`/presences-majelis/${presenceId}`, {
+                                method: 'DELETE'
+                                , headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    , 'Content-Type': 'application/json'
+                                }
+                            });
+
+                            if (response.ok) {
+                                alert('Data presensi berhasil dihapus!');
+                                // Re-fetch sessions to update the table
+                                this.fetchSessions();
+                            } else {
+                                const errorData = await response.json();
+                                alert('Gagal menghapus data presensi: ' + (errorData.message || 'Terjadi kesalahan.'));
+                            }
+                        } catch (error) {
+                            console.error('Error deleting presence:', error);
+                            alert('Terjadi kesalahan saat menghapus data presensi.');
+                        }
                     }
                 }
             }

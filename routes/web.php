@@ -24,6 +24,7 @@ Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
     Route::get('/presences-majelis', [MajelisController::class, 'indexPresences'])->name('presences.index');
     Route::post('/presences-majelis/get-data', [MajelisController::class, 'getPresencesData'])->name('presences.getdata');
     Route::get('/presences-majelis/show/{userId}', [MajelisController::class, 'showPresencesUser'])->name('presences.show');
+    Route::delete('/presences-majelis/{presence}', [MajelisController::class, 'destroyPresence'])->name('presences.destroy');
     /** End Majelis Route */
 
     /** Submission Role Route */

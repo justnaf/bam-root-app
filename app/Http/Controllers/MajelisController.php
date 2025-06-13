@@ -109,7 +109,7 @@ class MajelisController extends Controller
 
     public function indexPresences()
     {
-        $kajian = Majelis::all();
+        $kajian = Majelis::all()->sortByDesc('created_at');
         return view('majelis.presences.index', compact('kajian'));
     }
 
@@ -126,5 +126,19 @@ class MajelisController extends Controller
         $user = User::find($userId);
         $data = PresenceMajelis::where('user_id_presenced', $userId)->with(['presencedUser.dataDiri', 'presencerUser.dataDiri', 'majelis'])->get();
         return view('majelis.presences.show', compact(['data', 'user']));
+    }
+
+    public function destroyPresence(PresenceMajelis $presence) // Use route model binding
+    {
+        try {
+            if ($presence->delete()) {
+                return response()->json(['message' => 'Presensi berhasil dihapus.'], 200);
+            } else {
+                return response()->json(['message' => 'Presensi gagal dihapus.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            return response()->json(['message' => 'Terjadi kesalahan saat menghapus presensi.'], 500);
+        }
     }
 }
