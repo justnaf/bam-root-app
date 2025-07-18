@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             <template x-if="selectedEvent && Array.isArray(presences) && presences.length > 0">
-                                <template x-for="(index,item) in presences" :key="item.id">
+                                <template x-for="(item, index) in presences" :key="item.id">
                                     <td class="px-6 py-4" x-text="index + 1"></td>
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="px-6 py-4">
