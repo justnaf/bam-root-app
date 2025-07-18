@@ -23,6 +23,7 @@
                     <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                             <tr>
+                                <th class="px-6 py-3">No.</th>
                                 <th class="px-6 py-3">Nama Presensi</th>
                                 <th class="px-6 py-3">Yang Scan</th>
                                 <th class="px-6 py-3">Status</th>
@@ -33,7 +34,8 @@
                         </thead>
                         <tbody>
                             <template x-if="selectedEvent && Array.isArray(presences) && presences.length > 0">
-                                <template x-for="item in presences" :key="item.id">
+                                <template x-for="(index,item) in presences" :key="item.id">
+                                    <td class="px-6 py-4" x-text="index + 1"></td>
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="px-6 py-4">
                                             <p x-text="item.presenced_user.data_diri.name"></p>
